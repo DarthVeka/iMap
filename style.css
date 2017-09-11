@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.map-container {
+    width: 620px;
+    height: 600px;
+    display: inline-block;
+    border: 1px solid #000000;
+}
+
+.data-display {
+    display: inline-block;
+}
+
+.land {
+    fill: #cccccc;
+    fill-opacity: 1;
+    stroke:white;
+    stroke-opacity: 1;
+    stroke-width:0.5;
+}
+
+.land:hover {
+    fill: #990000;
+}
+
+.selected {
+    fill: #0000bb;
+}
+
+.selected:hover {
+    fill: rgba(0, 0, 187, 0.69);
+}
+
