@@ -30,16 +30,32 @@ body {
     stroke-width:0.5;
 }
 
+.rt-1 {
+    fill: #afd1e3;
+}
+.rt-2 {
+    fill: #7fb6d2;
+}
+.rt-3 {
+    fill: #509bc2;
+}
+.rt-4 {
+    fill: #427f9f;
+}
+.rt-5 {
+    fill: #33637c;
+}
+
 .land:hover {
-    fill: #990000;
+    fill: #9F0000;
 }
 
 .selected {
-    fill: #0000bb;
+    fill: #590000;
 }
 
 .selected:hover {
-    fill: rgba(0, 0, 187, 0.69);
+    fill: rgba(112, 0, 0, 0.60);
 }
 
 .btn {
@@ -58,3 +74,4 @@ body {
 .btn-blue {
     background-color: rgb(80, 151, 252);    
 }
+
