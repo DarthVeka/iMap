@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+body {
+    display: flex;
+
+}
+
 .map-container {
     width: 620px;
     height: 600px;
@@ -12,6 +17,8 @@
 
 .data-display {
     display: inline-block;
+    height: 600px;
+    width: 600px;
 }
 
 .land {
@@ -34,3 +41,13 @@
     fill: rgba(0, 0, 187, 0.69);
 }
 
+#swap-map {
+    background-color: #cccccc;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    cursor: pointer;
+}
