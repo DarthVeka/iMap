@@ -17,6 +17,7 @@ body {
 
 .data-display {
     display: inline-block;
+    margin-left: 5px;
     height: 600px;
     width: 600px;
 }
@@ -41,13 +42,19 @@ body {
     fill: rgba(0, 0, 187, 0.69);
 }
 
-#swap-map {
+.btn {
     background-color: #cccccc;
     border: none;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
     display: inline-block;
-    font-size: 13px;
+    font-size: 11px;
     cursor: pointer;
+}
+
+.btn-blue {
+    background-color: rgb(80, 151, 252);    
 }

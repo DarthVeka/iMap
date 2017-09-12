@@ -4,28 +4,42 @@ $(document).ready(function () {
     function init() {
 
         // Inicijalizacija varijabli koje koristimo
-        let zupanija = $('.land');
+        let regions = $('.land');
         let mapCont = $('.map-container');
         let mapa = $('#mapa');
         let regionName = $('.region-name');
+        let selectedRegionName = $('.selected-region-name');
         let swapBtn = $('#swap-map');
-        let odabraneZupanije = [];
+        let compareBtn = $('#compare');
+        let comparison = false;
+        let selectedRegions = [];
 
         // Event handlers
-        zupanija.on('click', (e) => {
+
+        regions.on('click', (e) => {
             let selected = $(e.target);
-            selected.toggleClass('selected');
-            console.log(selected.attr('title'));
+            compareButtonLogic(selected);            
         });
 
-        zupanija.on('mouseover', (e) => {
+        regions.on('mouseover', (e) => {
             regionName.text($(e.target).attr('title'));
         });
 
-        zupanija.on('mouseleave', (e) => {
+        regions.on('mouseleave', (e) => {
             regionName.text('');
         });
 
+        compareBtn.click(() => {
+            comparison = comparison ? false : true;
+            if(comparison) {
+                compareBtn.addClass('btn-blue');
+                compareBtn.text('Comparing...');
+            }
+            else {
+                defaultCompareBtn();
+            }
+            console.log(comparison);
+        });
 
         // Map swapping logic
         swapBtn.click((e) => {
@@ -35,6 +49,10 @@ $(document).ready(function () {
             let btnTxt = '';
             let atr = $('svg').attr("class");
             let classArray = atr.split(" ");
+
+            selectedRegions = [];
+            selectedRegionName.text('');
+            defaultCompareBtn();
 
             if (classArray[0] == 'cro') {
                 link = './bosniaHerzegovinaCantonsHigh.svg';
@@ -68,7 +86,35 @@ $(document).ready(function () {
         });
 
         // zoom out
-        panZoomInstance.zoom(1.0)
+        panZoomInstance.zoom(1.0);
+
+        // Custom functions
+
+        function defaultCompareBtn() {
+            compareBtn.removeClass('btn-blue');
+            compareBtn.text('Compare');
+        }
+
+        function compareButtonLogic(selected){
+            if(comparison) {
+                selected.toggleClass('selected');    
+                let index = selectedRegions.indexOf(selected[0].id);       
+
+                (index > -1) ? selectedRegions.splice(index, 1) : selectedRegions.push(selected[0].id);
+
+                let oldText = selectedRegionName.text();
+                oldText += ', ';
+                oldText += selected.attr('title');
+                selectedRegionName.text(oldText);
+                
+                console.log(selectedRegions);
+            } else {
+                console.log(selected.attr('title'));
+                regions.removeClass('selected');
+                selected.addClass('selected');
+                selectedRegionName.text(selected.attr('title'));
+            }
+        }
     };
     document.onload = init();
 });
