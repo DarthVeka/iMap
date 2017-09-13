@@ -75,3 +75,10 @@ body {
     background-color: rgb(80, 151, 252);    
 }
 
+.generated-data {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
