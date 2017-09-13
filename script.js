@@ -18,7 +18,7 @@ $(document).ready(function () {
 
         regions.on('click', (e) => {
             let selected = $(e.target);
-            compareButtonLogic(selected);            
+            compareButtonLogic(selected);
         });
 
         // Just showing over what region are we hovering
@@ -33,10 +33,10 @@ $(document).ready(function () {
 
         compareBtn.click(() => {
             comparison = comparison ? false : true;
-            if(comparison) {
+            if (comparison) {
                 selectedRegions = [];
                 // If user has a selected region(s) before compare button click add it to list
-                regions.hasClass('selected') ? $('.selected').map(function() {
+                regions.hasClass('selected') ? $('.selected').map(function () {
                     selectedRegions.push(this.id);
                     console.log(this.id);
                 }) : null;
@@ -85,8 +85,8 @@ $(document).ready(function () {
 
                 mapCont.append(newMap);
 
-            // After we change the map reinitialise everything becouse of the event binding
-            }).done( init );
+                // After we change the map reinitialise everything becouse of the event binding
+            }).done(init);
 
         });
 
@@ -109,21 +109,24 @@ $(document).ready(function () {
             compareBtn.text('Compare');
         }
 
-        function compareButtonLogic(selected){
+        function compareButtonLogic(selected) {
             // If we clicked the compare button allow multiple sellection
-            if(comparison) {
+            if (comparison) {
                 // togle selected class if olready selected and remove it from selectedRegions array
                 selected.toggleClass('selected');
-                let index = selectedRegions.indexOf(selected[0].id);       
+                let index = selectedRegions.indexOf(selected[0].id);
 
                 (index > -1) ? selectedRegions.splice(index, 1) : selectedRegions.push(selected[0].id);
 
                 // Add region name to html
-                let oldText = selectedRegionName.text();                
-                oldText += selected.attr('title');
-                oldText += ', ';
+                let oldText = selectedRegionName.text();
+                let newRegion = selected.attr('title');
+                let indexOfRegion = oldText.indexOf(newRegion);
+                // If the region is already added remove it from the list
+                (indexOfRegion == -1) ? (oldText += ' ', oldText += newRegion ) : (oldText = oldText.split(newRegion).join(''));
+               
                 selectedRegionName.text(oldText);
-                
+
                 console.log(selectedRegions);
             } else {
                 console.log(selected.attr('title'));

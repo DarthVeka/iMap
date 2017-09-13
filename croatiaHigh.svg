@@ -47,6 +47,9 @@
                 />
             </g>
             <g transform="translate(25,550)">
+                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(0,-10)">
+                    <tspan y="6" x="0">Razina transparentnosti proračuna</tspan>
+                </text>
                 <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" 
                 transform="translate(23,5)">
                     <tspan y="6" x="0">1</tspan>
