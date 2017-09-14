@@ -33,10 +33,13 @@ $(document).ready(function () {
             regionName.text('');
         });
 
+        // OVAJ DIO DORADITI..... LOGIKU IZDVOJITI U ZASEBNU FUNKCIJU
+        // xXxXxxXXxxXxxxxxXXxXxxXXXxxxXXXxxxxXXXXxxxxXXXXxxXXXXXXXXx
         legenda.on('click', (e) => {
             // Emptyng all content from data tontainer and removing all selected class attributes
             regions.removeClass('selected');
             genDataCont.empty();
+            selectedRegions = [];
 
             // Taking the id selector from clicked field in legend to target the specific classes
             let selector = '.';
@@ -46,10 +49,30 @@ $(document).ready(function () {
             // Generating dynamic data for all regions with class of the legend field id
             for(let i = 0; i < selectedLegend.length; i++) {
                 getSelectedData(selectedLegend[i]);                
+
+                let index = selectedRegions.indexOf(selectedLegend[i].id);
+                (index > -1) 
+                    ? (selectedRegions.splice(index, 1), removeSelectedRegion(selectedLegend))
+                    : (selectedRegions.push(selectedLegend[i].id));
+
+                // Add region name to html
+                let oldText = selectedRegionName.text();
+                let newRegion = selectedLegend.attr('title');
+                let indexOfRegion = oldText.indexOf(newRegion);
+                // If the region is already added remove it from the list
+                (indexOfRegion == -1)
+                    ? (oldText += ' ', oldText += newRegion) 
+                    : (oldText = oldText.split(newRegion).join(''));
+
+                selectedRegionName.text(oldText);
+
             }          
 
             $(selector).addClass('selected');
+            console.log(selectedRegions);
         });
+        // xXxXxxXXxxXxxxxxXXxXxxXXXxxxXXXxxxxXXXXxxxxXXXXxxXXXXXXXXx
+        
         // --------------------------------------------
 
         compareBtn.click(() => {
@@ -184,7 +207,7 @@ $(document).ready(function () {
             $(selectedId).remove();
         }
 
-
     };
     document.onload = init();
+
 });
