@@ -13,6 +13,7 @@ $(document).ready(function () {
         let compareBtn = $('#compare');
         let genDataCont = $('.generated-data');
         let genData = $('.dynamic-region');
+        let legenda = $('.legenda');
         let comparison = false;
         let selectedRegions = [];
 
@@ -31,6 +32,24 @@ $(document).ready(function () {
         regions.on('mouseleave', (e) => {
             regionName.text('');
         });
+
+        legenda.on('click', (e) => {
+            // Emptyng all content from data tontainer and removing all selected class attributes
+            regions.removeClass('selected');
+            genDataCont.empty();
+
+            // Taking the id selector from clicked field in legend to target the specific classes
+            let selector = '.';
+            selector += $(e.target).attr('id');
+            let selectedLegend = $(selector);
+
+            // Generating dynamic data for all regions with class of the legend field id
+            for(let i = 0; i < selectedLegend.length; i++) {
+                getSelectedData(selectedLegend[i]);                
+            }          
+
+            $(selector).addClass('selected');
+        });
         // --------------------------------------------
 
         compareBtn.click(() => {
@@ -40,7 +59,6 @@ $(document).ready(function () {
                 // If user has a selected region(s) before compare button click add it to list
                 regions.hasClass('selected') ? $('.selected').map(function () {
                     selectedRegions.push(this.id);
-                    console.log(this.id);
                 }) : null;
 
                 // Change button layout
@@ -50,7 +68,6 @@ $(document).ready(function () {
             else {
                 defaultCompareBtn();
             }
-            console.log(comparison);
         });
 
         // Map swapping logic
@@ -145,7 +162,9 @@ $(document).ready(function () {
 
         function getSelectedData(selected) {
             let link = './zupanije.json';
-            let selectedId = selected.attr('id');
+            // Because of the two different parameters we provide by calls to this function 
+            // we need to check are we prividing the id or do we need to extract it
+            let selectedId = (selected.id !== undefined) ? selected.id : selected.attr('id');
 
             $.get(link, function (data) {
                 for(let i = 0; i < data.zupanije.length; i++) {
