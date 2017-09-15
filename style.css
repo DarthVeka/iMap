@@ -82,3 +82,39 @@ body {
     grid-auto-rows: minmax(100px, auto);
 }
 
+/* AUTOCOMPLETE */
+.typeahead {
+    width: 306px;
+    height: 20px;
+    padding: 8px 12px;
+    font-size: 16px;
+    line-height: 20px;
+    border: 2px solid #ccc;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    outline: none;
+}
+
+#custom-templates .empty-message {
+    padding: 5px 10px;
+    
+    text-align: center;
+}
+
+.tt-menu {
+    width: 306px;
+    margin: 12px 0;
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+/* AUTOCOMPLETE END*/

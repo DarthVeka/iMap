@@ -47,11 +47,11 @@ $(document).ready(function () {
             let selectedLegend = $(selector);
 
             // Generating dynamic data for all regions with class of the legend field id
-            for(let i = 0; i < selectedLegend.length; i++) {
-                getSelectedData(selectedLegend[i]);                
+            for (let i = 0; i < selectedLegend.length; i++) {
+                getSelectedData(selectedLegend[i]);
 
                 let index = selectedRegions.indexOf(selectedLegend[i].id);
-                (index > -1) 
+                (index > -1)
                     ? (selectedRegions.splice(index, 1), removeSelectedRegion(selectedLegend))
                     : (selectedRegions.push(selectedLegend[i].id));
 
@@ -61,18 +61,18 @@ $(document).ready(function () {
                 let indexOfRegion = oldText.indexOf(newRegion);
                 // If the region is already added remove it from the list
                 (indexOfRegion == -1)
-                    ? (oldText += ' ', oldText += newRegion) 
+                    ? (oldText += ' ', oldText += newRegion)
                     : (oldText = oldText.split(newRegion).join(''));
 
                 selectedRegionName.text(oldText);
 
-            }          
+            }
 
             $(selector).addClass('selected');
             console.log(selectedRegions);
         });
         // xXxXxxXXxxXxxxxxXXxXxxXXXxxxXXXxxxxXXXXxxxxXXXXxxXXXXXXXXx
-        
+
         // --------------------------------------------
 
         compareBtn.click(() => {
@@ -158,7 +158,7 @@ $(document).ready(function () {
                 selected.toggleClass('selected');
                 let index = selectedRegions.indexOf(selected[0].id);
 
-                (index > -1) 
+                (index > -1)
                     ? (selectedRegions.splice(index, 1), removeSelectedRegion(selected))
                     : (selectedRegions.push(selected[0].id), getSelectedData(selected));
 
@@ -168,7 +168,7 @@ $(document).ready(function () {
                 let indexOfRegion = oldText.indexOf(newRegion);
                 // If the region is already added remove it from the list
                 (indexOfRegion == -1)
-                    ? (oldText += ' ', oldText += newRegion) 
+                    ? (oldText += ' ', oldText += newRegion)
                     : (oldText = oldText.split(newRegion).join(''));
 
                 selectedRegionName.text(oldText);
@@ -190,10 +190,10 @@ $(document).ready(function () {
             let selectedId = (selected.id !== undefined) ? selected.id : selected.attr('id');
 
             $.get(link, function (data) {
-                for(let i = 0; i < data.zupanije.length; i++) {
-                    if(selectedId === data.zupanije[i].id) {
-                        let htmlString = "<div class='"+ data.zupanije[i].id +" dynamic-region '><img src='"+ data.zupanije[i].grb +"' alt='"+ data.zupanije[i].name +"'>";
-                        htmlString += "<p>"+ data.zupanije[i].name +"</p></div>";
+                for (let i = 0; i < data.length; i++) {
+                    if (selectedId === data[i].id) {
+                        let htmlString = "<div class='" + data[i].id + " dynamic-region '><img src='" + data[i].grb + "' alt='" + data[i].name + "'>";
+                        htmlString += "<p>" + data[i].name + "</p></div>";
 
                         genDataCont.append(htmlString);
                     }
@@ -206,6 +206,51 @@ $(document).ready(function () {
             selectedId += selected.attr('id');
             $(selectedId).remove();
         }
+
+        // TYPEAHEAD
+
+        var countries = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            // url points to a json file that contains an array of country names, see
+            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+            // prefetch: 'https://raw.githubusercontent.com/twitter/typeahead.js/gh-pages/data/countries.json',
+            prefetch: 'test.json',
+            transform: function (response) {
+                console.log(response);
+
+            }
+        });
+
+        // passing in `null` for the `options` arguments will result in the default
+        // options being used
+        $('#prefetch .typeahead').typeahead(null, {
+            name: 'countries',
+            source: countries,
+            templates: {
+                empty: [
+                    '<div class="empty-message">',
+                    'Nema regije s unesenim podacima',
+                    '</div>'
+                ].join('\n')
+            }
+        });
+
+        $('.typeahead').on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                // !!!!! ISPRAVITI ukoliko nudi vise a strelicama odaberem neko ispod prvog ovo overvrajta i odabire prvo 
+                let inputTxt = $(".tt-suggestion:first-child").text();
+                for (let i = 0; i < regions.length; i++) {
+
+                    let selector = '#';
+                    selector += regions[i].getAttribute('id');
+
+                    if(regions[i].getAttribute('title') === inputTxt )
+                        compareButtonLogic($(selector));
+                }
+
+            }
+        });
 
     };
     document.onload = init();
