@@ -207,39 +207,14 @@ $(document).ready(function () {
             $(selectedId).remove();
         }
 
-        // TYPEAHEAD
-
-        var countries = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            // url points to a json file that contains an array of country names, see
-            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-            // prefetch: 'https://raw.githubusercontent.com/twitter/typeahead.js/gh-pages/data/countries.json',
-            prefetch: 'test.json',
-            transform: function (response) {
-                console.log(response);
-
-            }
-        });
-
-        // passing in `null` for the `options` arguments will result in the default
-        // options being used
-        $('#prefetch .typeahead').typeahead(null, {
-            name: 'countries',
-            source: countries,
-            templates: {
-                empty: [
-                    '<div class="empty-message">',
-                    'Nema regije s unesenim podacima',
-                    '</div>'
-                ].join('\n')
-            }
-        });
+        // TYPEAHEAD        
 
         $('.typeahead').on('keyup', function (e) {
             if (e.keyCode == 13) {
-                // !!!!! ISPRAVITI ukoliko nudi vise a strelicama odaberem neko ispod prvog ovo overvrajta i odabire prvo 
-                let inputTxt = $(".tt-suggestion:first-child").text();
+                e.stopImmediatePropagation();
+                
+                $(".tt-suggestion:first-child", this).trigger('click');
+                let inputTxt = $('.tt-input').val();
                 for (let i = 0; i < regions.length; i++) {
 
                     let selector = '#';
@@ -252,7 +227,40 @@ $(document).ready(function () {
             }
         });
 
+        
+       
     };
+    // END OF INIT FUNCTION
+
+    // TYPEAHEAD        
+    
+    var countries = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        // url points to a json file that contains an array of country names, see
+        // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+        // prefetch: 'https://raw.githubusercontent.com/twitter/typeahead.js/gh-pages/data/countries.json',
+        prefetch: 'test.json',
+        transform: function (response) {
+            console.log(response);
+
+        }
+    });
+
+    // passing in `null` for the `options` arguments will result in the default
+    // options being used
+    $('#prefetch .typeahead').typeahead(null, {
+        name: 'countries',
+        source: countries,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'Nema regije s unesenim podacima',
+                '</div>'
+            ].join('\n')
+        }
+    });
+
     document.onload = init();
 
 });
