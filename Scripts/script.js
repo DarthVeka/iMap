@@ -184,17 +184,18 @@ $(document).ready(function () {
         }
 
         function getSelectedData(selected) {
-            let link = './zupanije.json';
+            let link = 'http://localhost:3000/api/zupanijes';
             // Because of the two different parameters we provide by calls to this function 
             // we need to check are we prividing the id or do we need to extract it
             let selectedId = (selected.id !== undefined) ? selected.id : selected.attr('id');
 
             $.get(link, function (data) {
                 for (let i = 0; i < data.length; i++) {
-                    if (selectedId === data[i].id) {
-                        let htmlString = "<div class='" + data[i].id + " dynamic-region '><img src='" + data[i].grb + "' alt='" + data[i].name + "'>";
+                    if (selectedId === data[i].code) {
+                        let htmlString = "<div class='" + data[i].code + " dynamic-region '><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
                         htmlString += "<p>" + data[i].name + "</p></div>";
 
+                        console.log(data[i]);
                         genDataCont.append(htmlString);
                     }
                 }

@@ -1,107 +1,462 @@
 [
   {
-    "id": "HR-01",
+    "code": "HR-01",
     "name": "Zagrebačka županija",
-    "grb": "./pic/MBZ01.png"
+    "coatOfArms": "./pic/MBZ01.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "317606"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "282.61",
+        "expenditure": "279.14"
+      }
+    ]    
   },
+
   {
-    "id": "HR-02",
+    "code": "HR-02",
     "name": "Krapinsko-zagorska županija",
-    "grb": "./pic/MBZ02.png"
+    "coatOfArms": "./pic/MBZ02.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "132892"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "153.49",
+        "expenditure": "158.64"
+      }
+    ]
   },
+
   {
-    "id": "HR-03",
+    "code": "HR-03",
     "name": "Sisačko-moslavačka županija",
-    "grb": "./pic/MBZ03.png"
+    "coatOfArms": "./pic/MBZ03.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "172439"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "231.32",
+        "expenditure": "241.7"
+      }
+    ]
   },
+
   {
-    "id": "HR-04",
+    "code": "HR-04",
     "name": "Karlovačka županija",
-    "grb": "./pic/MBZ04.png"
+    "coatOfArms": "./pic/MBZ04.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "128899"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "153.93",
+        "expenditure": "148.73"
+      }
+    ]
   },
+
   {
-    "id": "HR-05",
+    "code": "HR-05",
     "name": "Varaždinska županija",
-    "grb": "./pic/MBZ05.png"
+    "coatOfArms": "./pic/MBZ05.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "175951"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "185.38",
+        "expenditure": "188.73"
+      }
+    ]
   },
+
   {
-    "id": "HR-06",
+    "code": "HR-06",
     "name": "Koprivničko-križevačka županija",
-    "grb": "./pic/MBZ06.png"
+    "coatOfArms": "./pic/MBZ06.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "115584"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "114.83",
+        "expenditure": "125.62"
+      }
+    ]
   },
+
   {
-    "id": "HR-07",
+    "code": "HR-07",
     "name": "Bjelovarsko-bilogorska županija",
-    "grb": "./pic/MBZ07.png"
+    "coatOfArms": "./pic/MBZ07.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "119764"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "112.99",
+        "expenditure": "109.39"
+      }
+    ]
   },
+
   {
-    "id": "HR-08",
+    "code": "HR-08",
     "name": "Primorsko-goranska županija",
-    "grb": "./pic/MBZ08.png"
+    "coatOfArms": "./pic/MBZ08.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "296195"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "308.69",
+        "expenditure": "320.02"
+      }
+    ]
   },
+
   {
-    "id": "HR-09",
+    "code": "HR-09",
     "name": "Ličko-senjska županija",
-    "grb": "./pic/MBZ09.png"
+    "coatOfArms": "./pic/MBZ09.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "50927"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "79.3",
+        "expenditure": "102.81"
+      }
+    ]
   },
+
   {
-    "id": "HR-10",
+    "code": "HR-10",
     "name": "Virovitičko-podravska županija",
-    "grb": "./pic/MBZ10.png"
+    "coatOfArms": "./pic/MBZ10.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "84836"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "134",
+        "expenditure": "140.54"
+      }
+    ]
   },
+
   {
-    "id": "HR-11",
+    "code": "HR-11",
     "name": "Požeško-slavonska županija",
-    "grb": "./pic/MBZ11.png"
+    "coatOfArms": "./pic/MBZ11.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "78034"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "82.72",
+        "expenditure": "76.52"
+      }
+    ]
   },
+
   {
-    "id": "HR-12",
+    "code": "HR-12",
     "name": "Brodsko-posavska županija",
-    "grb": "./pic/MBZ12.png"
+    "coatOfArms": "./pic/MBZ12.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "158575"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "135.02",
+        "expenditure": "131.98"
+      }
+    ]
   },
+
   {
-    "id": "HR-13",
+    "code": "HR-13",
     "name": "Zadarska županija",
-    "grb": "./pic/MBZ13.png"
+    "coatOfArms": "./pic/MBZ13.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "170017"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "181.49",
+        "expenditure": "186.45"
+      }
+    ]
   },
+
   {
-    "id": "HR-14",
+    "code": "HR-14",
     "name": "Osječko-baranjska županija",
-    "grb": "./pic/MBZ14.png"
+    "coatOfArms": "./pic/MBZ14.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "305032"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "285.62",
+        "expenditure": "274.89"
+      }
+    ]
   },
+
   {
-    "id": "HR-15",
+    "code": "HR-15",
     "name": "Šibensko-kninska županija",
-    "grb": "./pic/MBZ15.png"
+    "coatOfArms": "./pic/MBZ15.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "109375"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "108.63",
+        "expenditure": "101.64"
+      }
+    ]
   },
+
   {
-    "id": "HR-16",
+    "code": "HR-16",
     "name": "Vukovarsko-srijemska županija",
-    "grb": "./pic/MBZ16.png"
+    "coatOfArms": "./pic/MBZ16.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "179521"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "170.29",
+        "expenditure": "163.04"
+      }
+    ]
   },
+
   {
-    "id": "HR-17",
+    "code": "HR-17",
     "name": "Splitsko-dalmatinska županija",
-    "grb": "./pic/MBZ17.png"
+    "coatOfArms": "./pic/MBZ17.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "454798"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "430.97",
+        "expenditure": "419.8"
+      }
+    ]
   },
+
   {
-    "id": "HR-18",
+    "code": "HR-18",
     "name": "Istarska županija",
-    "grb": "./pic/MBZ18.png"
+    "coatOfArms": "./pic/MBZ18.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "208055"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "252.05",
+        "expenditure": "239.94"
+      }
+    ]
   },
+
   {
-    "id": "HR-19",
+    "code": "HR-19",
     "name": "Dubrovačko-neretvanska županija",
-    "grb": "./pic/MBZ19.png"
+    "coatOfArms": "./pic/MBZ19.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "122568"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "144.17",
+        "expenditure": "147.16"
+      }
+    ]
   },
   {
-    "id": "HR-20",
+    "code": "HR-20",
     "name": "Međimurska županija",
-    "grb": "./pic/MBZ20.png"
+    "coatOfArms": "./pic/MBZ20.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "113804"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "120.37",
+        "expenditure": "119.62"
+      }
+    ]
   },
+
   {
-    "id": "HR-21",
+    "code": "HR-21",
     "name": "Grad Zagreb",
-    "grb": "./pic/MBZ21.png"
+    "coatOfArms": "./pic/MBZ21.png",
+    "population": 
+    [
+      {
+        "year": "2011",
+        "rescodeents": "790017"
+      }
+    ],
+    "budgetTransparencyData": 
+    [
+      {
+        "year": "2016",
+        "lastEdited": "",
+        "revenue": "6427.02",
+        "expenditure": "6680.22"
+      }
+    ]
   }
 ]
