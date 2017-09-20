@@ -8,7 +8,6 @@ $(document).ready(function () {
         let mapCont = $('.map-container');
         let mapa = $('#mapa');
         let regionName = $('.region-name');
-        let selectedRegionName = $('.selected-region-name');
         let swapBtn = $('#swap-map');
         let compareBtn = $('#compare');
         let genDataCont = $('.generated-data');
@@ -55,17 +54,6 @@ $(document).ready(function () {
                     ? (selectedRegions.splice(index, 1), removeSelectedRegion(selectedLegend))
                     : (selectedRegions.push(selectedLegend[i].id));
 
-                // Add region name to html
-                let oldText = selectedRegionName.text();
-                let newRegion = selectedLegend.attr('title');
-                let indexOfRegion = oldText.indexOf(newRegion);
-                // If the region is already added remove it from the list
-                (indexOfRegion == -1)
-                    ? (oldText += ' ', oldText += newRegion)
-                    : (oldText = oldText.split(newRegion).join(''));
-
-                selectedRegionName.text(oldText);
-
             }
 
             $(selector).addClass('selected');
@@ -104,8 +92,7 @@ $(document).ready(function () {
             // check what map is currently loaded by checking ins class name
             let atr = $('svg').attr("class");
             let classArray = atr.split(" ");
-
-            selectedRegionName.text('');
+         
             defaultCompareBtn();
 
             if (classArray[0] == 'cro') {
@@ -162,43 +149,36 @@ $(document).ready(function () {
                     ? (selectedRegions.splice(index, 1), removeSelectedRegion(selected))
                     : (selectedRegions.push(selected[0].id), getSelectedData(selected));
 
-                // Add region name to html
-                let oldText = selectedRegionName.text();
-                let newRegion = selected.attr('title');
-                let indexOfRegion = oldText.indexOf(newRegion);
-                // If the region is already added remove it from the list
-                (indexOfRegion == -1)
-                    ? (oldText += ' ', oldText += newRegion)
-                    : (oldText = oldText.split(newRegion).join(''));
-
-                selectedRegionName.text(oldText);
-
+                
                 console.log(selectedRegions);
             } else {
                 regions.removeClass('selected');
                 genDataCont.empty();
                 getSelectedData(selected);
                 selected.addClass('selected');
-                selectedRegionName.text(selected.attr('title'));
             }
         }
 
         function getSelectedData(selected) {
-            let link = 'http://localhost:3000/api/zupanijes';
+            let link = 'http://192.168.11.60:3000/api/zupanijes';
             // Because of the two different parameters we provide by calls to this function 
             // we need to check are we prividing the id or do we need to extract it
             let selectedId = (selected.id !== undefined) ? selected.id : selected.attr('id');
 
+            $('#loading').show();
+            let htmlString = '';
             $.get(link, function (data) {
                 for (let i = 0; i < data.length; i++) {
                     if (selectedId === data[i].code) {
-                        let htmlString = "<div class='" + data[i].code + " dynamic-region '><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
+                        htmlString = "<div class='" + data[i].code + " dynamic-region '><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
                         htmlString += "<p>" + data[i].name + "</p></div>";
 
-                        console.log(data[i]);
-                        genDataCont.append(htmlString);
+                        console.log(data[i]);                        
                     }
                 }
+            }).done( () => {
+                $('#loading').hide();   
+                genDataCont.append(htmlString);             
             });
         }
 
