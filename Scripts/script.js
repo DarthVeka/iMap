@@ -365,7 +365,6 @@ $(document).ready(function () {
         chart.update();
     }
 
-    // ovo treba implementirati za brisanje grafa prililkom klika
     function removeOneDataset(ds) {
         let removalLabel = ds.attr('title').replace('županija','');
         let removalIndex = myBar.data.labels.indexOf(removalLabel);
@@ -376,7 +375,7 @@ $(document).ready(function () {
             myBar.data.datasets[2].data.splice(removalIndex, 1);
             myBar.data.labels.splice(removalIndex, 1);
         }
-        console.log(removalIndex);
+        
         myBar.update();
     }
 
