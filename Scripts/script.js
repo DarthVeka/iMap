@@ -102,7 +102,6 @@ $(document).ready(function () {
             }
 
             swapBtn.text(btnTxt);
-            console.log(link);
 
             // Get the new map, drop the old one, and append new
             $.get(link, function (data) {
@@ -147,8 +146,6 @@ $(document).ready(function () {
                     ? (selectedRegions.splice(index, 1), removeSelectedRegion(selected))
                     : (selectedRegions.push(selected[0].id), getSelectedData(selected));
 
-
-                console.log(selectedRegions);
             } else {
                 regions.removeClass('selected');
                 genDataCont.empty();
@@ -186,9 +183,14 @@ $(document).ready(function () {
         }
 
         function removeSelectedRegion(selected) {
-            let selectedId = '.';
+            let selectedId = '.';            
             selectedId += selected.attr('id');
             $(selectedId).remove();
+
+            removeOneDataset(selected);
+            for(let i = 0; i < regionData.length; i++) {
+                regionData[i].code === selected[0].id ? regionData.splice(i, 1) : null;
+            }
         }
 
         // TYPEAHEAD        
@@ -209,7 +211,7 @@ $(document).ready(function () {
                 }
 
             }
-        });
+        }).blur();
 
     };
     // END OF INIT FUNCTION
@@ -219,9 +221,6 @@ $(document).ready(function () {
     let countries = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        // url points to a json file that contains an array of country names, see
-        // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-        // prefetch: 'https://raw.githubusercontent.com/twitter/typeahead.js/gh-pages/data/countries.json',
         prefetch: 'test.json',
         transform: function (response) {
             console.log(response);
@@ -287,8 +286,9 @@ $(document).ready(function () {
             return (obj.budgetTransparencyData[0].expenditure * -1);
         });
 
-        let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));        
-
+        let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));       
+        surpDef = surpDef.map((number) => { return (number.toFixed(3)); }) 
+        
         let newData = [{
             label: 'Revenue',
             backgroundColor: 'rgba(0,0,255,0.3)',
@@ -318,8 +318,8 @@ $(document).ready(function () {
 
     function addDataToChartComparison(data) {
         removeDataFromChart();
+
         let chart = myBar;
-        
 
         let label = data.map((obj) => {
             return obj.name.replace('županija','');            
@@ -334,7 +334,8 @@ $(document).ready(function () {
         });
 
         let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));
-
+        surpDef = surpDef.map((number) => { return (number.toFixed(3)); }) 
+        
         let newData = [{
             label: 'Revenue',
             backgroundColor: 'rgba(0,0,255,0.3)',
@@ -365,11 +366,18 @@ $(document).ready(function () {
     }
 
     // ovo treba implementirati za brisanje grafa prililkom klika
-    function removeOneDataset(ds1) {
-        let removalIndex = data.datasets.indexOf(ds1); //Locate index of ds1
-        if(removalIndex >= 0) { //make sure this element exists in the array
-            data.datasets.splice(removalIndex, 1);
+    function removeOneDataset(ds) {
+        let removalLabel = ds.attr('title').replace('županija','');
+        let removalIndex = myBar.data.labels.indexOf(removalLabel);
+        
+        if(removalIndex >= 0) { 
+            myBar.data.datasets[0].data.splice(removalIndex, 1);
+            myBar.data.datasets[1].data.splice(removalIndex, 1);
+            myBar.data.datasets[2].data.splice(removalIndex, 1);
+            myBar.data.labels.splice(removalIndex, 1);
         }
+        console.log(removalIndex);
+        myBar.update();
     }
 
     function removeDataFromChart() {
