@@ -15,6 +15,7 @@ $(document).ready(function () {
         let legenda = $('.legenda');
         let comparison = false;
         let selectedRegions = [];
+        let regionData = [];
 
         // EVENT HANDLERS
 
@@ -35,10 +36,8 @@ $(document).ready(function () {
         // OVAJ DIO DORADITI..... LOGIKU IZDVOJITI U ZASEBNU FUNKCIJU
         // xXxXxxXXxxXxxxxxXXxXxxXXXxxxXXXxxxxXXXXxxxxXXXXxxXXXXXXXXx
         legenda.on('click', (e) => {
-            // Emptyng all content from data tontainer and removing all selected class attributes
-            regions.removeClass('selected');
-            genDataCont.empty();
-            selectedRegions = [];
+            comparison = false;
+            compareBtn.trigger('click');
 
             // Taking the id selector from clicked field in legend to target the specific classes
             let selector = '.';
@@ -57,7 +56,6 @@ $(document).ready(function () {
             }
 
             $(selector).addClass('selected');
-            console.log(selectedRegions);
         });
         // xXxXxxXXxxXxxxxxXXxXxxXXXxxxXXXxxxxXXXXxxxxXXXXxxXXXXXXXXx
 
@@ -67,10 +65,10 @@ $(document).ready(function () {
             comparison = comparison ? false : true;
             if (comparison) {
                 selectedRegions = [];
-                // If user has a selected region(s) before compare button click add it to list
-                regions.hasClass('selected') ? $('.selected').map(function () {
-                    selectedRegions.push(this.id);
-                }) : null;
+                regionData = [];
+
+                regions.removeClass('selected');
+                genDataCont.empty();
 
                 // Change button layout
                 compareBtn.addClass('btn-blue');
@@ -92,7 +90,7 @@ $(document).ready(function () {
             // check what map is currently loaded by checking ins class name
             let atr = $('svg').attr("class");
             let classArray = atr.split(" ");
-         
+
             defaultCompareBtn();
 
             if (classArray[0] == 'cro') {
@@ -110,7 +108,7 @@ $(document).ready(function () {
             $.get(link, function (data) {
 
                 mapCont.find('svg').first().remove();
-                var newMap = data.getElementsByTagName("svg")[0];
+                let newMap = data.getElementsByTagName("svg")[0];
 
                 mapCont.append(newMap);
 
@@ -132,7 +130,7 @@ $(document).ready(function () {
         panZoomInstance.zoom(1.0);
 
         // CUSTOM FUNCTIONS
-
+        
         function defaultCompareBtn() {
             compareBtn.removeClass('btn-blue');
             compareBtn.text('Compare');
@@ -149,17 +147,19 @@ $(document).ready(function () {
                     ? (selectedRegions.splice(index, 1), removeSelectedRegion(selected))
                     : (selectedRegions.push(selected[0].id), getSelectedData(selected));
 
-                
+
                 console.log(selectedRegions);
             } else {
                 regions.removeClass('selected');
                 genDataCont.empty();
-                getSelectedData(selected);
+                regionData = [];
                 selected.addClass('selected');
+                getSelectedData(selected);      
             }
         }
 
         function getSelectedData(selected) {
+
             let link = 'http://192.168.11.60:3000/api/zupanijes';
             // Because of the two different parameters we provide by calls to this function 
             // we need to check are we prividing the id or do we need to extract it
@@ -167,19 +167,22 @@ $(document).ready(function () {
 
             $('#loading').show();
             let htmlString = '';
+            
             $.get(link, function (data) {
                 for (let i = 0; i < data.length; i++) {
                     if (selectedId === data[i].code) {
+                        regionData.push(data[i]);    
+
                         htmlString = "<div class='" + data[i].code + " dynamic-region '><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
                         htmlString += "<p>" + data[i].name + "</p></div>";
-
-                        console.log(data[i]);                        
                     }
                 }
-            }).done( () => {
-                $('#loading').hide();   
-                genDataCont.append(htmlString);             
+            }).done(() => {
+                $('#loading').hide();
+                genDataCont.append(htmlString);
+                comparison ? addDataToChartComparison(regionData) : addDataToChart(regionData);
             });
+
         }
 
         function removeSelectedRegion(selected) {
@@ -193,7 +196,7 @@ $(document).ready(function () {
         $('.typeahead').on('keyup', function (e) {
             if (e.keyCode == 13) {
                 e.stopImmediatePropagation();
-                
+
                 $(".tt-suggestion:first-child", this).trigger('click');
                 let inputTxt = $('.tt-input').val();
                 for (let i = 0; i < regions.length; i++) {
@@ -201,21 +204,19 @@ $(document).ready(function () {
                     let selector = '#';
                     selector += regions[i].getAttribute('id');
 
-                    if(regions[i].getAttribute('title') === inputTxt )
+                    if (regions[i].getAttribute('title') === inputTxt)
                         compareButtonLogic($(selector));
                 }
 
             }
         });
 
-        
-       
     };
     // END OF INIT FUNCTION
 
     // TYPEAHEAD        
-    
-    var countries = new Bloodhound({
+
+    let countries = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         // url points to a json file that contains an array of country names, see
@@ -224,7 +225,6 @@ $(document).ready(function () {
         prefetch: 'test.json',
         transform: function (response) {
             console.log(response);
-
         }
     });
 
@@ -242,6 +242,146 @@ $(document).ready(function () {
         }
     });
 
-    document.onload = init();
+    function createChart() {
 
+        let ctx = document.getElementById("bar-chart").getContext("2d");
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: [],
+            options: {
+                title: {
+                    display: true,
+                    text: "Level of budget transparency"
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+    }
+
+    function addDataToChart(data) {
+        removeDataFromChart();
+        
+        let chart = myBar;
+
+        let label = data.map((obj) => {
+            return obj.name.replace('županija','');
+        });
+
+        let rev = data.map((obj) => {
+            return obj.budgetTransparencyData[0].revenue;
+        });
+
+        let exp = data.map((obj) => {
+            return (obj.budgetTransparencyData[0].expenditure * -1);
+        });
+
+        let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));        
+
+        let newData = [{
+            label: 'Revenue',
+            backgroundColor: 'rgba(0,0,255,0.3)',
+            stack: 'Stack 0',
+            data: [...rev]
+        },
+        {
+            label: 'Expenditure',
+            backgroundColor: 'rgba(255,0,0,0.3)',
+            stack: 'Stack 0',
+            data: [...exp]
+        },
+        {
+            label: 'Surplus/Deficit',
+            backgroundColor: 'rgba(0,255,0,0.3)',
+            stack: 'Stack 1',
+            data: [...surpDef]
+        }];
+
+        chart.data.labels.push(label);
+        newData.map((nd) => {
+            chart.data.datasets.push(nd);
+        });
+        chart.update();
+    }
+
+
+    function addDataToChartComparison(data) {
+        removeDataFromChart();
+        let chart = myBar;
+        
+
+        let label = data.map((obj) => {
+            return obj.name.replace('županija','');            
+        });
+
+        let rev = data.map((obj) => {
+            return obj.budgetTransparencyData[0].revenue;
+        });
+
+        let exp = data.map((obj) => {
+            return (obj.budgetTransparencyData[0].expenditure * -1);
+        });
+
+        let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));
+
+        let newData = [{
+            label: 'Revenue',
+            backgroundColor: 'rgba(0,0,255,0.3)',
+            stack: 'Stack 0',
+            data: [...rev]
+        },
+        {
+            label: 'Expenditure',
+            backgroundColor: 'rgba(255,0,0,0.3)',
+            stack: 'Stack 0',
+            data: [...exp]
+        },
+        {
+            label: 'Surplus/Deficit',
+            backgroundColor: 'rgba(0,255,0,0.3)',
+            stack: 'Stack 1',
+            data: [...surpDef]
+        }];
+        
+        label.map((lbl) => {
+            chart.data.labels.push(lbl);
+        });
+        
+        newData.map((nd) => {
+            chart.data.datasets.push(nd);
+        });
+        chart.update();
+    }
+
+    // ovo treba implementirati za brisanje grafa prililkom klika
+    function removeOneDataset(ds1) {
+        let removalIndex = data.datasets.indexOf(ds1); //Locate index of ds1
+        if(removalIndex >= 0) { //make sure this element exists in the array
+            data.datasets.splice(removalIndex, 1);
+        }
+    }
+
+    function removeDataFromChart() {
+        let chart = myBar;
+        chart.data.labels = [];
+
+        for (let i = 0; i < chart.data.datasets.length;) {
+            chart.data.datasets.pop();        
+        };
+        chart.update();
+    }
+
+    document.onload = init();
+    createChart();
 });

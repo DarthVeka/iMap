@@ -9,6 +9,7 @@
     <script src="https://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.js"></script>
     <script src="./Scripts/typeahead.jquery.js"></script>
     <script src="./Scripts/bloodhound.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>Interaktivna Mapa</title>
 </head>
@@ -109,11 +110,14 @@
         <br>
 
         <br>
-        <p> Hovering above: <label class="region-name"></label></p>
-
+        <p> Hovering above: <label class="region-name"></label></p>        
+        
         <div class="generated-data">
-
+            
         </div>
+    </div>
+    <div id="chart-display">
+        <canvas id="bar-chart" width="800" height="600"></canvas>        
     </div>
 
     <script src="./Scripts/script.js"></script>

@@ -133,3 +133,9 @@ body {
     top: 40%;
     left: 40%;
 }
+
+#bar-chart {
+    display: block; 
+    width: 900px; 
+    height: 600px;
+}
