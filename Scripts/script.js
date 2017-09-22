@@ -26,7 +26,7 @@ $(document).ready(function () {
 
         // Just showing over what region are we hovering
         regions.on('mouseover', (e) => {
-            regionName.text($(e.target).attr('title'));
+            regionName.text($(e.target).attr('title'));		
         });
 
         regions.on('mouseleave', (e) => {
@@ -170,16 +170,16 @@ $(document).ready(function () {
                     if (selectedId === data[i].code) {
                         regionData.push(data[i]);    
 
-                        htmlString = "<div class='" + data[i].code + " dynamic-region '><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
-                        htmlString += "<p>" + data[i].name + "</p></div>";
+                        htmlString = "<div class='" + data[i].code + " dynamic-region'><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
+                        htmlString += "<p>" + data[i].name + "</p></div>";                
                     }
                 }
             }).done(() => {
                 $('#loading').hide();
                 genDataCont.append(htmlString);
-                comparison ? addDataToChartComparison(regionData) : addDataToChart(regionData);
+                comparison ? addDataToChartComparison(regionData) : addDataToChart(regionData);            
             });
-
+            
         }
 
         function removeSelectedRegion(selected) {
