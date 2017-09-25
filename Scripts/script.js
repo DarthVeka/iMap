@@ -26,7 +26,7 @@ $(document).ready(function () {
 
         // Just showing over what region are we hovering
         regions.on('mouseover', (e) => {
-            regionName.text($(e.target).attr('title'));		
+            regionName.text($(e.target).attr('title'));
         });
 
         regions.on('mouseleave', (e) => {
@@ -129,7 +129,7 @@ $(document).ready(function () {
         panZoomInstance.zoom(1.0);
 
         // CUSTOM FUNCTIONS
-        
+
         function defaultCompareBtn() {
             compareBtn.removeClass('btn-blue');
             compareBtn.text('Compare');
@@ -151,72 +151,84 @@ $(document).ready(function () {
                 genDataCont.empty();
                 regionData = [];
                 selected.addClass('selected');
-                getSelectedData(selected);      
+                getSelectedData(selected);
             }
         }
 
         function getSelectedData(selected) {
 
             let link = 'http://192.168.11.60:3000/api/zupanijes';
-            // Because of the two different parameters we provide by calls to this function 
+            // Because of the two different parameters we provide by calls to this function
             // we need to check are we prividing the id or do we need to extract it
             let selectedId = (selected.id !== undefined) ? selected.id : selected.attr('id');
 
             $('#loading').show();
             let htmlString = '';
-            
+
             $.get(link, function (data) {
                 for (let i = 0; i < data.length; i++) {
                     if (selectedId === data[i].code) {
-                        regionData.push(data[i]);    
+                        regionData.push(data[i]);
 
                         htmlString = "<div class='" + data[i].code + " dynamic-region'><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
-                        htmlString += "<p>" + data[i].name + "</p></div>";                
+                        htmlString += "<p>" + data[i].name + "</p></div>";
                     }
                 }
             }).done(() => {
                 $('#loading').hide();
                 genDataCont.append(htmlString);
-                comparison ? addDataToChartComparison(regionData) : addDataToChart(regionData);            
+                comparison ? addDataToChartComparison(regionData) : addDataToChart(regionData);
             });
-            
+
         }
 
         function removeSelectedRegion(selected) {
-            let selectedId = '.';            
+            let selectedId = '.';
             selectedId += selected.attr('id');
             $(selectedId).remove();
 
             removeOneDataset(selected);
-            for(let i = 0; i < regionData.length; i++) {
+            for (let i = 0; i < regionData.length; i++) {
                 regionData[i].code === selected[0].id ? regionData.splice(i, 1) : null;
             }
         }
 
-        // TYPEAHEAD        
+        // TYPEAHEAD
 
         $('.typeahead').on('keyup', function (e) {
             if (e.keyCode == 13) {
                 e.stopImmediatePropagation();
 
-                $(".tt-suggestion:first-child", this).trigger('click');
-                let inputTxt = $('.tt-input').val();
+                let suggestion = $("pre")[0].innerHTML;
                 for (let i = 0; i < regions.length; i++) {
 
                     let selector = '#';
                     selector += regions[i].getAttribute('id');
 
-                    if (regions[i].getAttribute('title') === inputTxt)
+                    if (regions[i].getAttribute('title') === suggestion)
                         compareButtonLogic($(selector));
                 }
-
+                $('.typeahead').typeahead('val', '');
             }
-        }).blur();
+        });
+
+        $('.typeahead').bind('typeahead:select', function (ev, suggestion) {
+            for (let i = 0; i < regions.length; i++) {
+
+                let selector = '#';
+                selector += regions[i].getAttribute('id');
+
+                if (regions[i].getAttribute('title') === suggestion)
+                    compareButtonLogic($(selector));
+            }
+            $('.typeahead').typeahead('val', '');
+        });
+
 
     };
     // END OF INIT FUNCTION
 
-    // TYPEAHEAD        
+    // TYPEAHEAD
 
     let countries = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
@@ -271,11 +283,11 @@ $(document).ready(function () {
 
     function addDataToChart(data) {
         removeDataFromChart();
-        
+
         let chart = myBar;
 
         let label = data.map((obj) => {
-            return obj.name.replace('županija','');
+            return obj.name.replace('županija', '');
         });
 
         let rev = data.map((obj) => {
@@ -286,9 +298,9 @@ $(document).ready(function () {
             return (obj.budgetTransparencyData[0].expenditure * -1);
         });
 
-        let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));       
-        surpDef = surpDef.map((number) => { return (number.toFixed(3)); }) 
-        
+        let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));
+        surpDef = surpDef.map((number) => { return (number.toFixed(3)); })
+
         let newData = [{
             label: 'Revenue',
             backgroundColor: 'rgba(0,0,255,0.3)',
@@ -322,7 +334,7 @@ $(document).ready(function () {
         let chart = myBar;
 
         let label = data.map((obj) => {
-            return obj.name.replace('županija','');            
+            return obj.name.replace('županija', '');
         });
 
         let rev = data.map((obj) => {
@@ -334,8 +346,8 @@ $(document).ready(function () {
         });
 
         let surpDef = rev.map((val, idx) => parseFloat(val) + parseFloat(exp[idx]));
-        surpDef = surpDef.map((number) => { return (number.toFixed(3)); }) 
-        
+        surpDef = surpDef.map((number) => { return (number.toFixed(3)); })
+
         let newData = [{
             label: 'Revenue',
             backgroundColor: 'rgba(0,0,255,0.3)',
@@ -354,11 +366,11 @@ $(document).ready(function () {
             stack: 'Stack 1',
             data: [...surpDef]
         }];
-        
+
         label.map((lbl) => {
             chart.data.labels.push(lbl);
         });
-        
+
         newData.map((nd) => {
             chart.data.datasets.push(nd);
         });
@@ -366,16 +378,16 @@ $(document).ready(function () {
     }
 
     function removeOneDataset(ds) {
-        let removalLabel = ds.attr('title').replace('županija','');
+        let removalLabel = ds.attr('title').replace('županija', '');
         let removalIndex = myBar.data.labels.indexOf(removalLabel);
-        
-        if(removalIndex >= 0) { 
+
+        if (removalIndex >= 0) {
             myBar.data.datasets[0].data.splice(removalIndex, 1);
             myBar.data.datasets[1].data.splice(removalIndex, 1);
             myBar.data.datasets[2].data.splice(removalIndex, 1);
             myBar.data.labels.splice(removalIndex, 1);
         }
-        
+
         myBar.update();
     }
 
@@ -384,7 +396,7 @@ $(document).ready(function () {
         chart.data.labels = [];
 
         for (let i = 0; i < chart.data.datasets.length;) {
-            chart.data.datasets.pop();        
+            chart.data.datasets.pop();
         };
         chart.update();
     }
