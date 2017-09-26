@@ -25,8 +25,27 @@ $(document).ready(function () {
         });
 
         // Just showing over what region are we hovering
-        regions.on('mouseover', (e) => {
-            regionName.text($(e.target).attr('title'));
+        regions.on('mouseover', function (e) {
+            let rName = $(e.target).attr('title');
+
+            $(this).qtip({
+                overwrite: false,
+                content: {
+                    text: rName
+                },
+                style: {
+                    classes: 'qtip-tipsy'
+                },
+                position: {
+                    my: 'center center',
+                    at: 'top center'
+                },
+                show: {
+                    event: e.type,
+                    ready: true
+                }
+            }, e);
+
         });
 
         regions.on('mouseleave', (e) => {
@@ -136,6 +155,7 @@ $(document).ready(function () {
         }
 
         function compareButtonLogic(selected) {
+            console.log(selected);
             // If we clicked the compare button allow multiple sellection
             if (comparison) {
                 // togle selected class if olready selected and remove it from selectedRegions array
@@ -170,14 +190,19 @@ $(document).ready(function () {
                     if (selectedId === data[i].code) {
                         regionData.push(data[i]);
 
-                        htmlString = "<div class='" + data[i].code + " dynamic-region'><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
-                        htmlString += "<p>" + data[i].name + "</p></div>";
+                        htmlString = "<div class='tooltip " + data[i].code
+                            + " dynamic-region'><img src='"
+                            + data[i].coatOfArms + "' alt='"
+                            + data[i].name + "' title='"+ data[i].code +"'>";
+
+                        htmlString += "<p class='tooltipTxt'>" + data[i].name + "</p></div>";
                     }
                 }
             }).done(() => {
                 $('#loading').hide();
                 genDataCont.append(htmlString);
                 comparison ? addDataToChartComparison(regionData) : addDataToChart(regionData);
+                addEventsToImages();
             });
 
         }
@@ -191,6 +216,14 @@ $(document).ready(function () {
             for (let i = 0; i < regionData.length; i++) {
                 regionData[i].code === selected[0].id ? regionData.splice(i, 1) : null;
             }
+        }
+
+        function addEventsToImages() {
+            $('.dynamic-region img').on('click', (e) => {
+                e.stopImmediatePropagation();
+                let elem = $("#"+ $(e.target).attr('title') +"");
+                compareButtonLogic(elem);
+            });
         }
 
         // TYPEAHEAD
