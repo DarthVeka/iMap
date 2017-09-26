@@ -13,7 +13,7 @@
 
 .data-display {
     grid-area: data-display;
-    display: block;
+    /* display: block; */
     margin-left: 5px;
 }
 
@@ -66,6 +66,11 @@
     cursor: pointer;
 }
 
+.input-area {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .btn-blue {
     background-color: rgb(80, 151, 252);    
 }
@@ -83,7 +88,6 @@
 
 .tooltip {
     position: relative;
-    /* display: inline-block; */
 }
 
 .tooltip .tooltipTxt {
@@ -124,8 +128,7 @@
 }
 
 #custom-templates .empty-message {
-    padding: 5px 10px;
-    
+    padding: 5px 10px;    
     text-align: center;
 }
 
@@ -169,6 +172,7 @@
 }
 
 .wrapper {
+    padding-top: 5px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto;    

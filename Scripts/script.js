@@ -155,7 +155,6 @@ $(document).ready(function () {
         }
 
         function compareButtonLogic(selected) {
-            console.log(selected);
             // If we clicked the compare button allow multiple sellection
             if (comparison) {
                 // togle selected class if olready selected and remove it from selectedRegions array

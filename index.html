@@ -10,7 +10,7 @@
     <script src="./Scripts/typeahead.jquery.js"></script>
     <script src="./Scripts/bloodhound.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
-    <script src="http://cdn.jsdelivr.net/qtip2/3.0.3/jquery.qtip.min.js"></script>    
+    <script src="http://cdn.jsdelivr.net/qtip2/3.0.3/jquery.qtip.min.js"></script>
     <link rel="stylesheet" href="http://cdn.jsdelivr.net/qtip2/3.0.3/jquery.qtip.min.css">
     <link rel="stylesheet" href="style.css">
     <title>Interaktivna Mapa</title>
@@ -102,15 +102,16 @@
             </svg>
         </div>
         <div class="data-display">
-            <p>Click to change the map to:</p>
-            <button class="btn" id="swap-map">Bosna and Hercegovina</button>
-            <button class="btn" id="compare">Compare</button>
-            <br>
-            <br>
-            <div id="prefetch">
-                <input class="typeahead" type="text" placeholder="Regions">            
+            <div class="input-area">
+                <button class="btn" id="swap-map">Bosna and Hercegovina</button>
+                <button class="btn" id="compare">Compare</button>
+                <br>
+                <br>
+                <div id="prefetch">
+                    <input class="typeahead" type="text" placeholder="Regions">
+                </div>
             </div>
-            
+
             <br>
 
             <div class="generated-data">
