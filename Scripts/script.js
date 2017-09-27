@@ -26,7 +26,7 @@ $(document).ready(function () {
 
         // Just showing over what region are we hovering
         regions.on('mouseover', function (e) {
-            let rName = $(e.target).attr('title');
+            let rName = $(e.target).attr('title-region');
 
             $(this).qtip({
                 overwrite: false,
@@ -44,8 +44,7 @@ $(document).ready(function () {
                     event: e.type,
                     ready: true
                 }
-            }, e);
-
+            },e);
         });
 
         regions.on('mouseleave', (e) => {
@@ -156,6 +155,7 @@ $(document).ready(function () {
 
         function compareButtonLogic(selected) {
             // If we clicked the compare button allow multiple sellection
+            console.log(selected[0]);
             if (comparison) {
                 // togle selected class if olready selected and remove it from selectedRegions array
                 selected.toggleClass('selected');
@@ -220,8 +220,13 @@ $(document).ready(function () {
         function addEventsToImages() {
             $('.dynamic-region img').on('click', (e) => {
                 e.stopImmediatePropagation();
-                let elem = $("#"+ $(e.target).attr('title') +"");
+                
+                let sel = '#';
+                sel += $(e.target).attr('title');
+                let elem = $(sel);
+
                 compareButtonLogic(elem);
+                
             });
         }
 
@@ -236,8 +241,8 @@ $(document).ready(function () {
 
                     let selector = '#';
                     selector += regions[i].getAttribute('id');
-
-                    if (regions[i].getAttribute('title') === suggestion)
+                    
+                    if (regions[i].getAttribute('title-region') === suggestion)
                         compareButtonLogic($(selector));
                 }
                 $('.typeahead').typeahead('val', '');
@@ -250,7 +255,7 @@ $(document).ready(function () {
                 let selector = '#';
                 selector += regions[i].getAttribute('id');
 
-                if (regions[i].getAttribute('title') === suggestion)
+                if (regions[i].getAttribute('title-region') === suggestion)
                     compareButtonLogic($(selector));
             }
             $('.typeahead').typeahead('val', '');
@@ -410,7 +415,7 @@ $(document).ready(function () {
     }
 
     function removeOneDataset(ds) {
-        let removalLabel = ds.attr('title').replace('županija', '');
+        let removalLabel = ds.attr('title-region').replace('županija', '');
         let removalIndex = myBar.data.labels.indexOf(removalLabel);
 
         if (removalIndex >= 0) {
