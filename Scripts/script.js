@@ -25,8 +25,26 @@ $(document).ready(function () {
         });
 
         // Just showing over what region are we hovering
-        regions.on('mouseover', (e) => {
-            regionName.text($(e.target).attr('title'));
+        regions.on('mouseover', function (e) {
+            let rName = $(e.target).attr('title-region');
+
+            $(this).qtip({
+                overwrite: false,
+                content: {
+                    text: rName
+                },
+                style: {
+                    classes: 'qtip-tipsy'
+                },
+                position: {
+                    my: 'center center',
+                    at: 'top center'
+                },
+                show: {
+                    event: e.type,
+                    ready: true
+                }
+            },e);
         });
 
         regions.on('mouseleave', (e) => {
@@ -137,6 +155,7 @@ $(document).ready(function () {
 
         function compareButtonLogic(selected) {
             // If we clicked the compare button allow multiple sellection
+            console.log(selected[0]);
             if (comparison) {
                 // togle selected class if olready selected and remove it from selectedRegions array
                 selected.toggleClass('selected');
@@ -170,14 +189,19 @@ $(document).ready(function () {
                     if (selectedId === data[i].code) {
                         regionData.push(data[i]);
 
-                        htmlString = "<div class='" + data[i].code + " dynamic-region'><img src='" + data[i].coatOfArms + "' alt='" + data[i].name + "'>";
-                        htmlString += "<p>" + data[i].name + "</p></div>";
+                        htmlString = "<div class='tooltip " + data[i].code
+                            + " dynamic-region'><img src='"
+                            + data[i].coatOfArms + "' alt='"
+                            + data[i].name + "' title='"+ data[i].code +"'>";
+
+                        htmlString += "<p class='tooltipTxt'>" + data[i].name + "</p></div>";
                     }
                 }
             }).done(() => {
                 $('#loading').hide();
                 genDataCont.append(htmlString);
                 comparison ? addDataToChartComparison(regionData) : addDataToChart(regionData);
+                addEventsToImages();
             });
 
         }
@@ -193,6 +217,19 @@ $(document).ready(function () {
             }
         }
 
+        function addEventsToImages() {
+            $('.dynamic-region img').on('click', (e) => {
+                e.stopImmediatePropagation();
+                
+                let sel = '#';
+                sel += $(e.target).attr('title');
+                let elem = $(sel);
+
+                compareButtonLogic(elem);
+                
+            });
+        }
+
         // TYPEAHEAD
 
         $('.typeahead').on('keyup', function (e) {
@@ -204,8 +241,8 @@ $(document).ready(function () {
 
                     let selector = '#';
                     selector += regions[i].getAttribute('id');
-
-                    if (regions[i].getAttribute('title') === suggestion)
+                    
+                    if (regions[i].getAttribute('title-region') === suggestion)
                         compareButtonLogic($(selector));
                 }
                 $('.typeahead').typeahead('val', '');
@@ -218,7 +255,7 @@ $(document).ready(function () {
                 let selector = '#';
                 selector += regions[i].getAttribute('id');
 
-                if (regions[i].getAttribute('title') === suggestion)
+                if (regions[i].getAttribute('title-region') === suggestion)
                     compareButtonLogic($(selector));
             }
             $('.typeahead').typeahead('val', '');
@@ -378,7 +415,7 @@ $(document).ready(function () {
     }
 
     function removeOneDataset(ds) {
-        let removalLabel = ds.attr('title').replace('županija', '');
+        let removalLabel = ds.attr('title-region').replace('županija', '');
         let removalIndex = myBar.data.labels.indexOf(removalLabel);
 
         if (removalIndex >= 0) {
