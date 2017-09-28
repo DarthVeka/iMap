@@ -23,6 +23,7 @@
     stroke:white;
     stroke-opacity: 1;
     stroke-width:0.5;
+    cursor: pointer;
 }
 
 .rt-1 {
@@ -75,6 +76,11 @@
     background-color: rgb(80, 151, 252);    
 }
 
+#compare {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .generated-data {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -84,6 +90,7 @@
 
 .dynamic-region img {
     height: 100%;
+    cursor: pointer;
 }
 
 .tooltip {
