@@ -51,8 +51,7 @@ $(document).ready(function () {
             regionName.text('');
         });
 
-        // OVAJ DIO DORADITI..... LOGIKU IZDVOJITI U ZASEBNU FUNKCIJU
-        // xXxXxxXXxxXxxxxxXXxXxxXXXxxxXXXxxxxXXXXxxxxXXXXxxXXXXXXXXx
+        
         legenda.on('click', (e) => {
             comparison = false;
             compareBtn.trigger('click');
@@ -155,7 +154,6 @@ $(document).ready(function () {
 
         function compareButtonLogic(selected) {
             // If we clicked the compare button allow multiple sellection
-            console.log(selected[0]);
             if (comparison) {
                 // togle selected class if olready selected and remove it from selectedRegions array
                 selected.toggleClass('selected');
